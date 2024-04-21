@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Spinner from 'react-bootstrap/Spinner';
 
-export const LoginView = ({ onLoggedIn }) => {
+export const LoginView = ({ onLoggedIn, onShowSignupForm }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event) => {
     // this prevents the default behavior of the form which is to
@@ -13,6 +17,8 @@ export const LoginView = ({ onLoggedIn }) => {
       Email: email,
       Password: password
     };
+
+    setLoading(true);
 
     fetch("https://cf-2-movie-api.onrender.com/login", {
         method: "POST",
@@ -33,33 +39,58 @@ export const LoginView = ({ onLoggedIn }) => {
         } else {
           alert(`Login failed: ${data.error.message}`);
         }
+        setLoading(false);
       })
       .catch(error => {
+        setLoading(false);
         alert("Something went wrong");
       });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Email:
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+    <div className="d-flex flex-column mt-n5">
+      <Form className="d-flex flex-column" onSubmit={handleSubmit}>
+        <div className="d-flex justify-content-center mb-5">
+          <h1 className="display-3 fw-semibold">
+            <small className="lead text-body-secondary d-block">Welcome to</small>
+            myFlix
+          </h1>
+        </div>
+        <Form.Group className="mb-3" controlId="formEmail">
+          <Form.Control
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+            />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formPassword">
+          <Form.Control
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+            />
+        </Form.Group>
+
+        <Button className="mb-3 align-self-end" variant="primary" type="submit">
+          {loading &&
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+              className="me-1"
+            />
+          }
+          Login
+        </Button>
+      </Form>
+      <Button className="p-0 align-self-end" variant="link" onClick={onShowSignupForm}>Don't have an account?</Button>
+    </div>
   );
 };

@@ -1,5 +1,33 @@
-$color: steelblue;
+// $primary: SeaGreen;
+// $body-bg: Honeydew;
 
-.my-flix {
-  color: $color;
+html,
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+$enable-negative-margins: true;
+
+@import '~bootstrap/scss/bootstrap.scss';
+
+.fs-7 {
+  font-size: 0.8rem !important;
+}
+
+ul.dot-decorator {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+ul.dot-decorator > li:not(:last-child)::after {
+  content: "·";
+}
+
+ul.dot-decorator > li > a {
+  text-decoration: none;
 }

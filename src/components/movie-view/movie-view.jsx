@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Button, ListGroup, Nav } from "react-bootstrap";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import { FavoriteIcon } from "../favorite-icon/favorite-icon";
 
-export const MovieView = ({ movie, onBackClick }) => {
-  // temporary randomize which movies are favorite
-  const isFavorite = Boolean(Math.round(Math.random()));
+export const MovieView = ({ movies, token, user, syncUser }) => {
+  const { movieId } = useParams();
 
-  const actors = movie.Actors.map(actor => actor.Name).join(', ');
+  const movie = movies.find(movie => movie.id === movieId);
 
   return (
     <Row>
@@ -68,7 +70,9 @@ export const MovieView = ({ movie, onBackClick }) => {
               </div>
             </div>
             <div className="flex-grow-1 d-flex justify-content-end align-self-end">
-              <Button variant="primary" onClick={onBackClick}>Back</Button>
+              <Link to={`/`}>
+                <Button variant="primary">Back</Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -77,16 +81,8 @@ export const MovieView = ({ movie, onBackClick }) => {
       <Col md={6}>
         <div className="d-flex justify-content-center bg-dark rounded-3 py-3 position-relative">
           <img src={movie.ImagePath} />
-          <div className="position-absolute top-0 end-0 text-danger p-3">
-            {isFavorite ? (
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-heart" viewBox="0 0 16 16">
-                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-              </svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-heart-fill" viewBox="0 0 16 16">
-                <path fillRule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-              </svg>
-            )}
+          <div className="position-absolute top-0 end-0 text-danger m-3">
+            <FavoriteIcon movie={movie} token={token} user={user} syncUser={syncUser} />
           </div>
         </div>
       </Col>
@@ -95,30 +91,33 @@ export const MovieView = ({ movie, onBackClick }) => {
 };
 
 MovieView.propTypes = {
-  movie: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
-    ImagePath: PropTypes.string.isRequired,
-    ReleaseYear: PropTypes.number,
-    MPA: PropTypes.string,
-    IMDb: PropTypes.number,
-    Genre: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Description: PropTypes.string.isRequired
-    }).isRequired,
-    Director: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Bio: PropTypes.string.isRequired,
-      Birth: PropTypes.string,
-      Death: PropTypes.string,
-    }),
-    Actors: PropTypes.arrayOf(PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Bio: PropTypes.string.isRequired,
-      Birthday: PropTypes.string,
-      ImagePath: PropTypes.string.isRequired
-    }))
-  }).isRequired,
-  onBackClick: PropTypes.func.isRequired
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      Title: PropTypes.string.isRequired,
+      Description: PropTypes.string.isRequired,
+      ImagePath: PropTypes.string.isRequired,
+      ReleaseYear: PropTypes.number,
+      MPA: PropTypes.string,
+      IMDb: PropTypes.number,
+      Genre: PropTypes.shape({
+        Name: PropTypes.string.isRequired,
+        Description: PropTypes.string.isRequired
+      }).isRequired,
+      Director: PropTypes.shape({
+        Name: PropTypes.string.isRequired,
+        Bio: PropTypes.string.isRequired,
+        Birth: PropTypes.string,
+        Death: PropTypes.string,
+      }),
+      Actors: PropTypes.arrayOf(
+        PropTypes.shape({
+          Name: PropTypes.string.isRequired,
+          Bio: PropTypes.string.isRequired,
+          Birthday: PropTypes.string,
+          ImagePath: PropTypes.string.isRequired
+        })
+      )
+    })
+  ).isRequired
 };

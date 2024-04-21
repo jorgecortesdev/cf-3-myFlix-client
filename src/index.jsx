@@ -6,9 +6,7 @@ import "./index.scss";
 
 const App = () => {
   return (
-    <Container className='h-100 py-5'>
-      <MainView />
-    </Container>
+    <MainView />
   );
 };
 

@@ -3,6 +3,7 @@ import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FavoriteIcon } from "../favorite-icon/favorite-icon";
 import { ToWatchIcon } from "../towatch-icon/towatch-icon";
+import { GenreBadge } from "../genre-badge/genre-badge";
 
 import "./movie-card.scss";
 
@@ -19,7 +20,7 @@ export const MovieCard = ({ movie, token, user, syncUser }) => {
         <Card.Title>{movie.Title}</Card.Title>
         <Card.Text>{movie.Description}</Card.Text>
         <div className="flex-grow-1 d-flex align-items-end justify-content-between">
-          <small className="fw-lighter">{movie.Genre.Name}</small>
+          <GenreBadge genre={movie.Genre} />
           <Link to={`/movies/${encodeURIComponent(movie.id)}`} className="z-0">
             <Button className="stretched-link p-0" variant="link">
               Open

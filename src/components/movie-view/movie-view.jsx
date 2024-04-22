@@ -8,6 +8,7 @@ import { RatingIcon } from "../rating-icon/rating-icon";
 import { PopularityIcon } from "../popularity-icon/popularity-icon";
 import { MovieList } from "../movie-list/movie-list";
 import { ToWatchIcon } from "../towatch-icon/towatch-icon";
+import { GenreBadge } from "../genre-badge/genre-badge";
 
 export const MovieView = ({ movies, token, user, syncUser }) => {
   const { movieId } = useParams();
@@ -32,7 +33,7 @@ export const MovieView = ({ movies, token, user, syncUser }) => {
                 <span className="fs-6 text-body-secondary">{movie.ReleaseYear}</span>&bull;
                 <span className="fs-6 text-body-secondary">{movie.MPA}</span>
               </div>
-              <small className="d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-4">{movie.Genre.Name}</small>
+              <GenreBadge genre={movie.Genre} />
             </div>
           </div>
 

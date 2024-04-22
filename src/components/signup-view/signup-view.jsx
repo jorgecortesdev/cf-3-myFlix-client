@@ -99,7 +99,7 @@ export const SignupView = () => {
           />
         </Form.Group>
 
-        <Button className="mb-3 align-self-end" variant="primary" type="submit">
+        <Button className="mb-3 align-self-end" variant="primary" type="submit" disabled={loading}>
           {loading &&
             <Spinner
               as="span"

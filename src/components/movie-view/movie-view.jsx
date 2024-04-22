@@ -7,6 +7,7 @@ import { FavoriteIcon } from "../favorite-icon/favorite-icon";
 import { RatingIcon } from "../rating-icon/rating-icon";
 import { PopularityIcon } from "../popularity-icon/popularity-icon";
 import { MovieList } from "../movie-list/movie-list";
+import { ToWatchIcon } from "../towatch-icon/towatch-icon";
 
 export const MovieView = ({ movies, token, user, syncUser }) => {
   const { movieId } = useParams();
@@ -88,8 +89,9 @@ export const MovieView = ({ movies, token, user, syncUser }) => {
         <Col md={6}>
           <div className="d-flex justify-content-center bg-dark rounded-3 py-3 position-relative">
             <img src={movie.ImagePath} />
-            <div className="position-absolute top-0 end-0 text-danger m-3">
+            <div className="position-absolute top-0 end-0 text-danger m-3 d-flex gap-2">
               <FavoriteIcon movie={movie} token={token} user={user} syncUser={syncUser} />
+              <ToWatchIcon movie={movie} token={token} user={user} syncUser={syncUser} />
             </div>
           </div>
         </Col>

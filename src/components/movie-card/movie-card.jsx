@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FavoriteIcon } from "../favorite-icon/favorite-icon";
+import { ToWatchIcon } from "../towatch-icon/towatch-icon";
 
 import "./movie-card.scss";
 
@@ -11,6 +12,10 @@ export const MovieCard = ({ movie, token, user, syncUser }) => {
     <Card className="h-100 position-relative">
       <Card.Img variant="top" src={movie.ImagePath} />
       <Card.Body className="d-flex flex-column">
+        <Card.Text className="d-flex justify-content-end mb-3 gap-2">
+          <FavoriteIcon movie={movie} token={token} user={user} syncUser={syncUser} />
+          <ToWatchIcon movie={movie} token={token} user={user} syncUser={syncUser} />
+        </Card.Text>
         <Card.Title>{movie.Title}</Card.Title>
         <Card.Text>{movie.Description}</Card.Text>
         <div className="flex-grow-1 d-flex align-items-end justify-content-between">
@@ -25,9 +30,6 @@ export const MovieCard = ({ movie, token, user, syncUser }) => {
           </Link>
         </div>
       </Card.Body>
-      <div className="position-absolute top-0 end-0 m-3">
-        <FavoriteIcon movie={movie} token={token} user={user} syncUser={syncUser} />
-      </div>
     </Card>
   );
 };

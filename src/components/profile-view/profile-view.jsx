@@ -25,6 +25,8 @@ export const ProfileView = ({ movies, user, token, syncUser, onLoggedOut }) => {
 
   const favoriteMovies = movies.filter(movie => user.FavoriteMovies.includes(movie.id));
 
+  const toWatchMovies = movies.filter(movie => user.ToWatch.includes(movie.id));
+
   const handleSubmit = event => {
     event.preventDefault();
 
@@ -158,6 +160,8 @@ export const ProfileView = ({ movies, user, token, syncUser, onLoggedOut }) => {
       </Row>
 
       <MovieList movies={favoriteMovies} title={"Favorites"} token={token} user={user} syncUser={syncUser} />
+
+      <MovieList movies={toWatchMovies} title={"To Watch"} token={token} user={user} syncUser={syncUser} />
     </>
   );
 };

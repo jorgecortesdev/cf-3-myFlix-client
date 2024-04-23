@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Spinner from 'react-bootstrap/Spinner';
+import { Link } from "react-router-dom";
 
-export const SignupView = ({ onShowLoginForm }) => {
+export const SignupView = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -98,7 +99,7 @@ export const SignupView = ({ onShowLoginForm }) => {
           />
         </Form.Group>
 
-        <Button className="mb-3 align-self-end" variant="primary" type="submit">
+        <Button className="mb-3 align-self-end" variant="primary" type="submit" disabled={loading}>
           {loading &&
             <Spinner
               as="span"
@@ -112,7 +113,10 @@ export const SignupView = ({ onShowLoginForm }) => {
           Signup
         </Button>
       </Form>
-      <Button className="p-0 align-self-end" variant="link" onClick={onShowLoginForm}>Already have an account?</Button>
+
+      <Link className="p-0 align-self-end" to="/login">
+        <Button variant="link">Already have an account?</Button>
+      </Link>
     </div>
   );
 };

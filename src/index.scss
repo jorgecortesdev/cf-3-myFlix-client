@@ -1,13 +1,7 @@
-// $primary: SeaGreen;
-// $body-bg: Honeydew;
-
 html,
-body {
-  height: 100%;
-}
-
+body,
 #root {
-  height: 100%;
+  min-height: 100vh;
 }
 
 $enable-negative-margins: true;
@@ -16,6 +10,14 @@ $enable-negative-margins: true;
 
 .fs-7 {
   font-size: 0.8rem !important;
+}
+
+.mt-n6 {
+  margin-top: -4rem !important;
+}
+
+.mt-n7 {
+  margin-top: -5rem !important;
 }
 
 ul.dot-decorator {

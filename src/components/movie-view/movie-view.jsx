@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FavoriteIcon } from "../favorite-icon/favorite-icon";
 import { RatingIcon } from "../rating-icon/rating-icon";
 import { PopularityIcon } from "../popularity-icon/popularity-icon";
-import { MovieList } from "../movie-list/movie-list";
+import { MoviesList } from "../movies-list/movies-list";
 import { ToWatchIcon } from "../towatch-icon/towatch-icon";
 import { GenreBadge } from "../genre-badge/genre-badge";
 import { DirectorLink } from "./director-link";
@@ -103,7 +103,7 @@ export const MovieView = () => {
         </Col>
       </Row>
 
-      <MovieList movies={similarMovies} title={"Similar Movies"} description={"No similar movies found!"} />
+      <MoviesList movies={similarMovies} title={"Similar Movies"} description={"No similar movies found!"} />
     </>
   );
 };

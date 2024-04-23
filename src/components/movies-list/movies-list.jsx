@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
 
-export const MovieList = ({ movies, title, description = "Empty List" }) => {
+export const MoviesList = ({ movies, title, description = "Empty List" }) => {
   return (
     <Row>
       <Col md={12}>

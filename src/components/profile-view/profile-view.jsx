@@ -27,11 +27,13 @@ export const ProfileView = () => {
   const [password, setPassword] = useState("");
   const [birthday, setBirthday] = useState(formattedDate(user.Birthday));
 
-  const movies = useSelector(state => state.movies);
+  const movies = useSelector(state => state.movies.list);
 
   const favoriteMovies = movies.filter(movie => user.FavoriteMovies.includes(movie.id));
 
   const toWatchMovies = movies.filter(movie => user.ToWatch.includes(movie.id));
+
+  const dispatch = useDispatch();
 
   const handleSubmit = event => {
     event.preventDefault();

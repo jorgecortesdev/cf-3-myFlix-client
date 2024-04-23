@@ -10,9 +10,10 @@ import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { FooterBar } from "../footer-bar/footer-bar";
 import { useSelector, useDispatch } from "react-redux";
 import { setMovies } from "../../state/movies/moviesSlice";
+import { MainMoviesList } from "../main-movies-list/main-movies-list";
 
 export const MainView = () => {
-  const movies = useSelector(state => state.movies);
+  const movies = useSelector(state => state.movies.list);
   const { user, token } = useSelector(state => state.user);
 
   const dispatch = useDispatch();
@@ -136,25 +137,7 @@ export const MainView = () => {
           path="/"
           element={
             <>
-              {!user ? (
-                <Navigate to="/login" replace />
-              ) : movies.length === 0 ? (
-                <Container className="flex-grow-1">
-                  <Row className="pt-5 pb-2">
-                    <Col>The list is empty!</Col>
-                  </Row>
-                </Container>
-              ) : (
-                <Container className="flex-grow-1">
-                  <Row className="pt-5 pb-2">
-                    {movies.map((movie) => (
-                      <Col className="mb-5" key={movie.id} md={3}>
-                        <MovieCard movie={movie} />
-                      </Col>
-                    ))}
-                  </Row>
-                </Container>
-              )}
+              {!user ? <Navigate to="/login" replace /> : <MainMoviesList />}
             </>
           }
         />

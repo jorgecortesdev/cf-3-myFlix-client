@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
@@ -8,13 +8,14 @@ import { Container, Row, Col } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { FooterBar } from "../footer-bar/footer-bar";
+import { useSelector, useDispatch } from "react-redux";
+import { setMovies } from "../../state/movies/moviesSlice";
 
 export const MainView = () => {
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-  const storedToken = localStorage.getItem("token");
-  const [user, setUser] = useState(storedUser? storedUser : null);
-  const [token, setToken] = useState(storedToken? storedToken : null);
-  const [movies, setMovies] = useState([]);
+  const movies = useSelector(state => state.movies);
+  const { user, token } = useSelector(state => state.user);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!token) {
@@ -44,28 +45,13 @@ export const MainView = () => {
           }
         });
 
-        setMovies(moviesFromApi);
+        dispatch(setMovies(moviesFromApi));
       });
   }, [token]);
 
-  // keep user on sync on any change
-  const syncUser = (user) => {
-    localStorage.setItem('user', JSON.stringify(user));
-    setUser(user);
-  };
-
-  const onLoggedOut = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.clear();
-  }
-
   return (
     <BrowserRouter>
-      <NavigationBar
-        user={user}
-        onLoggedOut={onLoggedOut}
-      />
+      <NavigationBar />
 
       <Routes>
         <Route
@@ -97,12 +83,7 @@ export const MainView = () => {
                 <Container className="flex-grow-1 d-flex justify-content-center align-items-center">
                   <Row className="w-100 justify-content-center">
                     <Col md={5}>
-                      <LoginView
-                        onLoggedIn={(user, token) => {
-                          setUser(user);
-                          setToken(token);
-                        }}
-                        />
+                      <LoginView />
                     </Col>
                   </Row>
                 </Container>
@@ -119,7 +100,7 @@ export const MainView = () => {
                 <Navigate to="/login" />
               ) : (
                 <Container className="flex-grow-1">
-                  <ProfileView movies={movies} user={user} token={token} syncUser={syncUser} onLoggedOut={onLoggedOut} />
+                  <ProfileView />
                 </Container>
               )}
             </>
@@ -142,7 +123,7 @@ export const MainView = () => {
                 <Container className="flex-grow-1">
                   <Row className="pt-5 pb-2">
                     <Col md={12}>
-                      <MovieView movies={movies} token={token} user={user} syncUser={syncUser} />
+                      <MovieView />
                     </Col>
                   </Row>
                 </Container>
@@ -168,7 +149,7 @@ export const MainView = () => {
                   <Row className="pt-5 pb-2">
                     {movies.map((movie) => (
                       <Col className="mb-5" key={movie.id} md={3}>
-                        <MovieCard movie={movie} token={token} user={user} syncUser={syncUser} />
+                        <MovieCard movie={movie} />
                       </Col>
                     ))}
                   </Row>
@@ -179,10 +160,7 @@ export const MainView = () => {
         />
       </Routes>
 
-      <FooterBar
-        user={user}
-        onLoggedOut={onLoggedOut}
-      />
+      <FooterBar />
     </BrowserRouter>
   );
 };

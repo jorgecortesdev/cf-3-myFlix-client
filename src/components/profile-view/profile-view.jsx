@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Row, Col, Button, Form, Spinner } from "react-bootstrap";
 import { MovieList } from "../movie-list/movie-list";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser, onLoggedOut } from "../../state/user/userSlice";
 
-export const ProfileView = ({ movies, user, token, syncUser, onLoggedOut }) => {
+export const ProfileView = () => {
   // TODO: Fix the bug with timezone
   const formattedDate = (value) => {
     if (value) {
@@ -18,10 +20,14 @@ export const ProfileView = ({ movies, user, token, syncUser, onLoggedOut }) => {
     return value;
   }
 
+  const { user, token } = useSelector(state => state.user);
+
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState(user.Name);
   const [password, setPassword] = useState("");
   const [birthday, setBirthday] = useState(formattedDate(user.Birthday));
+
+  const movies = useSelector(state => state.movies);
 
   const favoriteMovies = movies.filter(movie => user.FavoriteMovies.includes(movie.id));
 
@@ -53,7 +59,7 @@ export const ProfileView = ({ movies, user, token, syncUser, onLoggedOut }) => {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          syncUser({...user, ...data.data});
+          dispatch(setUser({...user, ...data.data}))
           alert("Update successful");
         } else {
           alert(`Update failed: ${data.error.message}`)
@@ -76,7 +82,7 @@ export const ProfileView = ({ movies, user, token, syncUser, onLoggedOut }) => {
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        onLoggedOut();
+        dispatch(onLoggedOut());
       } else {
         alert(`Remove failed: ${data.error.message}`)
       }
@@ -159,9 +165,9 @@ export const ProfileView = ({ movies, user, token, syncUser, onLoggedOut }) => {
         </Col>
       </Row>
 
-      <MovieList movies={favoriteMovies} title={"Favorites"} token={token} user={user} syncUser={syncUser} />
+      <MovieList movies={favoriteMovies} title={"Favorites"} />
 
-      <MovieList movies={toWatchMovies} title={"To Watch"} token={token} user={user} syncUser={syncUser} />
+      <MovieList movies={toWatchMovies} title={"To Watch"} />
     </>
   );
 };

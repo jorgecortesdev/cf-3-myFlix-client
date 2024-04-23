@@ -3,11 +3,15 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Spinner from 'react-bootstrap/Spinner';
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser, setToken } from "../../state/user/userSlice";
 
-export const LoginView = ({ onLoggedIn }) => {
+export const LoginView = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     // this prevents the default behavior of the form which is to
@@ -34,9 +38,8 @@ export const LoginView = ({ onLoggedIn }) => {
         // https://cf-2-movie-api.onrender.com/docs/#/Auth/post_login
         if (data.success) {
           const { user, token } = data.data;
-          localStorage.setItem("user", JSON.stringify(user));
-          localStorage.setItem("token", token);
-          onLoggedIn(user, token);
+          dispatch(setUser(user));
+          dispatch(setToken(token));
         } else {
           alert(`Login failed: ${data.error.message}`);
         }
@@ -45,6 +48,7 @@ export const LoginView = ({ onLoggedIn }) => {
       .catch(error => {
         setLoading(false);
         alert("Something went wrong");
+        console.log(error)
       });
   };
 

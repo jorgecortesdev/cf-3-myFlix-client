@@ -7,15 +7,14 @@ import { GenreBadge } from "../genre-badge/genre-badge";
 
 import "./movie-card.scss";
 
-export const MovieCard = ({ movie, token, user, syncUser }) => {
-
+export const MovieCard = ({ movie }) => {
   return (
     <Card className="h-100 position-relative">
       <Card.Img variant="top" src={movie.ImagePath} />
       <Card.Body className="d-flex flex-column">
         <Card.Text className="d-flex justify-content-end mb-3 gap-2">
-          <FavoriteIcon movie={movie} token={token} user={user} syncUser={syncUser} />
-          <ToWatchIcon movie={movie} token={token} user={user} syncUser={syncUser} />
+          <FavoriteIcon movie={movie} />
+          <ToWatchIcon movie={movie} />
         </Card.Text>
         <Card.Title>{movie.Title}</Card.Title>
         <Card.Text>{movie.Description}</Card.Text>

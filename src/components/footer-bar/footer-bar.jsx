@@ -1,8 +1,14 @@
 import React from "react";
 import { Container, Nav } from "react-bootstrap";
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
+import { onLoggedOut } from "../../state/user/userSlice";
 
-export const FooterBar = ({ user, onLoggedOut }) => {
+export const FooterBar = () => {
+  const { user } = useSelector(state => state.user);
+
+  const dispatch = useDispatch();
+
   return (
     <footer className="mt-auto">
       <Container className="d-flex flex-wrap justify-content-between align-items-center py-3 my-3">
@@ -28,7 +34,7 @@ export const FooterBar = ({ user, onLoggedOut }) => {
                 <Nav.Link as={Link} to="/profile" className="px-2 text-body-secondary">Profile</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link onClick={onLoggedOut} className="px-2 text-body-secondary">Logout</Nav.Link>
+                <Nav.Link onClick={() => dispatch(onLoggedOut())} className="px-2 text-body-secondary">Logout</Nav.Link>
               </Nav.Item>
             </>
           )}

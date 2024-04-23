@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
 
-export const MovieList = ({ title, description = "Empty List", movies, token, user, syncUser }) => {
+export const MovieList = ({ movies, title, description = "Empty List" }) => {
   return (
     <Row>
       <Col md={12}>
@@ -11,7 +11,7 @@ export const MovieList = ({ title, description = "Empty List", movies, token, us
           {movies.length !== 0 ? (
             movies.map(movie => (
               <Col className="mb-5" key={movie.id} md={3}>
-                <MovieCard movie={movie} token={token} user={user} syncUser={syncUser} />
+                <MovieCard movie={movie} />
               </Col>
             ))
           ) : (

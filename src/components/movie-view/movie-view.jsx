@@ -1,6 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Row, Col, Button, ListGroup, Nav } from "react-bootstrap";
+import { Row, Col, Button, ListGroup } from "react-bootstrap";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { FavoriteIcon } from "../favorite-icon/favorite-icon";
@@ -11,9 +10,12 @@ import { ToWatchIcon } from "../towatch-icon/towatch-icon";
 import { GenreBadge } from "../genre-badge/genre-badge";
 import { DirectorLink } from "./director-link";
 import { ActorLink } from "./actor-link";
+import { useSelector } from "react-redux";
 
-export const MovieView = ({ movies, token, user, syncUser }) => {
+export const MovieView = () => {
   const { movieId } = useParams();
+
+  const movies = useSelector(state => state.movies.list);
 
   const movie = movies.find(movie => movie.id === movieId);
 
@@ -94,54 +96,14 @@ export const MovieView = ({ movies, token, user, syncUser }) => {
           <div className="d-flex justify-content-center bg-dark rounded-3 py-3 position-relative">
             <img src={movie.ImagePath} />
             <div className="position-absolute top-0 end-0 text-danger m-3 d-flex gap-2">
-              <FavoriteIcon movie={movie} token={token} user={user} syncUser={syncUser} />
-              <ToWatchIcon movie={movie} token={token} user={user} syncUser={syncUser} />
+              <FavoriteIcon movie={movie} />
+              <ToWatchIcon movie={movie} />
             </div>
           </div>
         </Col>
       </Row>
 
-      <MovieList
-        title={"Similar Movies"}
-        description={"No similar movies found!"}
-        movies={similarMovies}
-        user={user}
-        token={token}
-        syncUser={syncUser}
-      />
-
+      <MovieList movies={similarMovies} title={"Similar Movies"} description={"No similar movies found!"} />
     </>
   );
-};
-
-MovieView.propTypes = {
-  movies: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      Title: PropTypes.string.isRequired,
-      Description: PropTypes.string.isRequired,
-      ImagePath: PropTypes.string.isRequired,
-      ReleaseYear: PropTypes.number,
-      MPA: PropTypes.string,
-      IMDb: PropTypes.number,
-      Genre: PropTypes.shape({
-        Name: PropTypes.string.isRequired,
-        Description: PropTypes.string.isRequired
-      }).isRequired,
-      Director: PropTypes.shape({
-        Name: PropTypes.string.isRequired,
-        Bio: PropTypes.string.isRequired,
-        Birth: PropTypes.string,
-        Death: PropTypes.string,
-      }),
-      Actors: PropTypes.arrayOf(
-        PropTypes.shape({
-          Name: PropTypes.string.isRequired,
-          Bio: PropTypes.string.isRequired,
-          Birthday: PropTypes.string,
-          ImagePath: PropTypes.string.isRequired
-        })
-      )
-    })
-  ).isRequired
 };

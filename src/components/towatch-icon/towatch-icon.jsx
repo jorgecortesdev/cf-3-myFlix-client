@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "../../state/user/userSlice";
 
-export const ToWatchIcon = ({ movie, token, user, syncUser }) => {
+export const ToWatchIcon = ({ movie }) => {
+  const { user, token } = useSelector(state => state.user);
+
+  const dispatch = useDispatch();
 
   const isAdded = user.ToWatch.includes(movie.id);
 
@@ -14,7 +19,7 @@ export const ToWatchIcon = ({ movie, token, user, syncUser }) => {
       .then(data => {
         if (data.success) {
           const updatedUser = data.data;
-          syncUser(updatedUser);
+          dispatch(setUser(updatedUser));
         } else {
           alert(`Operation failed: ${data.error.message}`);
         }

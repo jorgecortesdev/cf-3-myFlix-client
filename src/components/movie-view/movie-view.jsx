@@ -9,6 +9,8 @@ import { PopularityIcon } from "../popularity-icon/popularity-icon";
 import { MovieList } from "../movie-list/movie-list";
 import { ToWatchIcon } from "../towatch-icon/towatch-icon";
 import { GenreBadge } from "../genre-badge/genre-badge";
+import { DirectorLink } from "./director-link";
+import { ActorLink } from "./actor-link";
 
 export const MovieView = ({ movies, token, user, syncUser }) => {
   const { movieId } = useParams();
@@ -42,14 +44,14 @@ export const MovieView = ({ movies, token, user, syncUser }) => {
           <ListGroup variant="flush" className="mt-2 mb-5">
             <ListGroup.Item className="border-top px-0">
               <strong>Director</strong>
-              <span className="ms-3">{movie.Director.Name}</span>
+              <DirectorLink director={movie.Director} />
             </ListGroup.Item>
             <ListGroup.Item className="border-bottom px-0">
               <strong>Actors</strong>
               <ul className="ms-3 d-inline-flex dot-decorator">
                 {movie.Actors.map(actor => (
                   <li key={actor.Name}>
-                    <a className="px-2" href="#">{actor.Name}</a>
+                    <ActorLink actor={actor} />
                   </li>
                 ))}
               </ul>
@@ -75,6 +77,7 @@ export const MovieView = ({ movies, token, user, syncUser }) => {
                     <PopularityIcon />
                   </div>
                   {/* placeholder: it will count how many times this movie has been favored */}
+                  {/* it needs to be implemented in the API */}
                   <div className="fs-5 fw-semibold">10</div>
                 </div>
               </div>

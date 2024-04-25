@@ -1,0 +1,42 @@
+.slide-arrow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  height: 36px;
+  width: 36px;
+  border: 1px solid #dadce0;
+  background-color: white;
+  font-size: 3rem;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 100ms;
+  z-index: 1;
+  border-radius: 50%;
+}
+
+.slide-arrow > svg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 22x;
+  height: 22px;
+}
+
+.slide-arrow:hover,
+.slide-arrow:focus {
+  opacity: 1;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.slide-arrow.prev {
+  left: -18px;
+}
+
+.slide-arrow.next {
+  right: -18px;
+}

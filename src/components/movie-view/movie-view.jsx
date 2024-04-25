@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FavoriteIcon } from "../favorite-icon/favorite-icon";
 import { RatingIcon } from "../rating-icon/rating-icon";
 import { PopularityIcon } from "../popularity-icon/popularity-icon";
-import { MoviesList } from "../movies-list/movies-list";
+import { MoviesSlider } from "../movies-slider/movies-slider";
 import { ToWatchIcon } from "../towatch-icon/towatch-icon";
 import { GenreBadge } from "../genre-badge/genre-badge";
 import { DirectorLink } from "./director-link";
@@ -95,15 +95,15 @@ export const MovieView = () => {
         <Col md={6}>
           <div className="d-flex justify-content-center bg-dark rounded-3 py-3 position-relative">
             <img src={movie.ImagePath} />
-            <div className="position-absolute top-0 end-0 text-danger m-3 d-flex gap-2">
-              <FavoriteIcon movie={movie} />
-              <ToWatchIcon movie={movie} />
+            <div className="position-absolute top-0 end-0 m-3 d-flex gap-2">
+              <FavoriteIcon className="text-danger" movie={movie} />
+              <ToWatchIcon className="text-primary" movie={movie} />
             </div>
           </div>
         </Col>
       </Row>
 
-      <MoviesList movies={similarMovies} title={"Similar Movies"} description={"No similar movies found!"} />
+      <MoviesSlider movies={similarMovies} title={"Similar Movies"} description={"No similar movies found!"} />
     </>
   );
 };

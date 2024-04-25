@@ -13,8 +13,8 @@ export const MovieCard = ({ movie }) => {
       <Card.Img variant="top" src={movie.ImagePath} />
       <Card.Body className="d-flex flex-column">
         <Card.Text className="d-flex justify-content-end mb-3 gap-2">
-          <FavoriteIcon movie={movie} />
-          <ToWatchIcon movie={movie} />
+          <FavoriteIcon className="text-danger" movie={movie} />
+          <ToWatchIcon className="text-primary" movie={movie} />
         </Card.Text>
         <Card.Title>{movie.Title}</Card.Title>
         <Card.Text>{movie.Description}</Card.Text>

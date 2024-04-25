@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Button, Form, Spinner } from "react-bootstrap";
-import { MoviesList } from "../movies-list/movies-list";
+import { MoviesSlider } from "../movies-slider/movies-slider";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser, onLoggedOut } from "../../state/user/userSlice";
 
@@ -167,9 +167,9 @@ export const ProfileView = () => {
         </Col>
       </Row>
 
-      <MoviesList movies={favoriteMovies} title={"Favorites"} />
+      <MoviesSlider movies={favoriteMovies} title={"Favorites"} />
 
-      <MoviesList movies={toWatchMovies} title={"To Watch"} />
+      <MoviesSlider movies={toWatchMovies} title={"To Watch"} />
     </>
   );
 };

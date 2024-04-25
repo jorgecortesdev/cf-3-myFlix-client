@@ -1,0 +1,113 @@
+.movie-information {
+  width: 124px;
+  margin-right: 12px;
+  transition: width 0.4s;
+
+  &:hover {
+    width: 258px;
+  }
+
+  &:hover > .movie-poster > .movie-poster__overlay {
+    display: flex;
+    align-items: end;
+  }
+
+  &:hover > .movie-poster > .movie-poster__overlay > .movie-details {
+    display: block;
+    opacity: 1;
+  }
+}
+
+.movie-poster {
+  height: 162px;
+  overflow: hidden;
+  transition: all 0.4s;
+  width: 100%;
+  position: relative;
+
+  &__img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    height: 100%;
+    border-radius: 0.5rem;
+    z-index: 1;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.35);
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    display: none;
+  }
+}
+
+.movie-details {
+  color: #fff;
+  font-weight: 700;
+  padding: 1rem;
+  overflow: hidden;
+  font-size: 0.8rem;
+  display: none;
+  opacity: 0;
+  transition: all 0.4s;
+
+  p > a {
+    margin: 0;
+    font-size: 1.1rem;
+    text-shadow: 0 1px 2px #3c4043, 0 1px 3px #3c4043;
+    text-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white;
+    text-decoration: none;
+    letter-spacing: .2px;
+  }
+
+  div {
+    align-items: center;
+    display: flex;
+    font-size: 14px;
+    margin-top: 7px;
+    min-height: 16px;
+    text-shadow: 0 1px 2px #3c4043, 0 1px 3px #3c4043;
+    text-wrap: nowrap;
+  }
+
+  &__rating {
+    border: solid #fff 1px;
+    box-sizing: border-box;
+    font-size: 12px;
+    margin-right: 8px;
+    padding: 0 3px;
+  }
+
+  &__list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    li:not(:last-child)::after {
+      content: "·";
+      margin: 0 4px;
+    }
+  }
+}
+
+.movie-title {
+  font-size: 14px;
+  color: rgb(108, 117, 125);
+  text-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 0.4rem;
+  letter-spacing: .2px;
+}

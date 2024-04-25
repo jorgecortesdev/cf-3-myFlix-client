@@ -25,7 +25,9 @@ export const SignupView = () => {
 
     setLoading(true);
 
-    fetch("https://cf-2-movie-api.onrender.com/users", {
+    const { MYFLIX_API: myflixApi } = process.env;
+
+    fetch(`${myflixApi}/users`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {

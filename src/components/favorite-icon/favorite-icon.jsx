@@ -11,7 +11,9 @@ export const FavoriteIcon = ({ movie, className = '' }) => {
   const isFavorite = user.FavoriteMovies.includes(movie.id);
 
   const toggleMovie = (user, movie, method) => {
-    fetch(`https://cf-2-movie-api.onrender.com/lists/${user.Email}/favorite/${movie.id}`, {
+    const { MYFLIX_API: myflixApi } = process.env;
+
+    fetch(`${myflixApi}/lists/${user.Email}/favorite/${movie.id}`, {
       method,
       headers: { Authorization: `Bearer ${token}` },
     })

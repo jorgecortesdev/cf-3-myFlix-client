@@ -25,7 +25,9 @@ export const LoginView = () => {
 
     setLoading(true);
 
-    fetch("https://cf-2-movie-api.onrender.com/login", {
+    const { MYFLIX_API: myflixApi } = process.env;
+
+    fetch(`${myflixApi}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

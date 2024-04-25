@@ -23,7 +23,9 @@ export const MainView = () => {
       return;
     }
 
-    fetch("https://cf-2-movie-api.onrender.com/movies", {
+    const { MYFLIX_API: myflixApi } = process.env;
+
+    fetch(`${myflixApi}/movies`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => response.json())

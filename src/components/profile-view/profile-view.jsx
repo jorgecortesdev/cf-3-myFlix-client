@@ -50,7 +50,9 @@ export const ProfileView = () => {
       data.Password = password;
     }
 
-    fetch(`https://cf-2-movie-api.onrender.com/users/${user.Email}`, {
+    const { MYFLIX_API: myflixApi } = process.env;
+
+    fetch(`${myflixApi}/users/${user.Email}`, {
         method: "PUT",
         body: JSON.stringify(data),
         headers: {
@@ -74,7 +76,9 @@ export const ProfileView = () => {
   }
 
   const removeAccount = () => {
-    fetch(`https://cf-2-movie-api.onrender.com/users/${user.Email}`, {
+    const { MYFLIX_API: myflixApi } = process.env;
+
+    fetch(`${myflixApi}/users/${user.Email}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

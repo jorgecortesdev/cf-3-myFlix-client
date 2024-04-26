@@ -1,0 +1,1 @@
+export { MoviesFilter } from "./MoviesFilter";

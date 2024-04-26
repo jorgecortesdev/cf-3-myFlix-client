@@ -1,12 +1,12 @@
 import { createRoot } from 'react-dom/client';
-import { MainView } from "./components/main-view/main-view";
 import { Provider } from "react-redux";
 import { store } from "./state/store";
+import { HomePage } from "./pages";
 
 import "./index.scss";
 
 const App = () => {
-  return <MainView />;
+  return <HomePage />;
 };
 
 const container = document.querySelector("#root");

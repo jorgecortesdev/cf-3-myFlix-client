@@ -1,10 +1,11 @@
-import { Navbar, Container, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { onLoggedOut } from "../../state/user/userSlice";
+import React from 'react';
+import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { onLoggedOut } from '../../state/user/userSlice';
 
 export const NavigationBar = () => {
-  const { user } = useSelector(state => state.user);
+  const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 

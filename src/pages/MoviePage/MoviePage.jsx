@@ -1,23 +1,23 @@
-import React from "react";
-import { useParams } from "react-router";
-import { Link } from "react-router-dom";
-import { Row, Col, Button, ListGroup } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import React from 'react';
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
+import { Row, Col, Button, ListGroup } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
-import { FavoriteIcon, RatingIcon, PopularityIcon, ToWatchIcon } from "../../components/Icons";
-import { MoviesSlider } from "../../components/MoviesSlider";
-import { GenreBadge } from "../../components/Badges";
-import { DirectorLink, ActorLink } from "../../components/Links";
+import { FavoriteIcon, RatingIcon, PopularityIcon, ToWatchIcon } from '../../components/Icons';
+import { MoviesSlider } from '../../components/MoviesSlider';
+import { GenreBadge } from '../../components/Badges';
+import { DirectorLink, ActorLink } from '../../components/Links';
 
 export const MoviePage = () => {
   const { movieId } = useParams();
 
-  const movies = useSelector(state => state.movies.list);
+  const movies = useSelector((state) => state.movies.list);
 
-  const movie = movies.find(movie => movie.id === movieId);
+  const movie = movies.find((movie) => movie.id === movieId);
 
   // Bonus Task 2: Similar Movies
-  const similarMovies = movies.filter(currentMovie => {
+  const similarMovies = movies.filter((currentMovie) => {
     const isSimilarMovie = movie.Genre.Name === currentMovie.Genre.Name;
     const isNotTheSelectedMovie = movie.id !== currentMovie.id;
     return isNotTheSelectedMovie && isSimilarMovie;
@@ -48,7 +48,7 @@ export const MoviePage = () => {
             <ListGroup.Item className="border-bottom px-0">
               <strong>Actors</strong>
               <ul className="ms-3 d-inline-flex dot-decorator">
-                {movie.Actors.map(actor => (
+                {movie.Actors.map((actor) => (
                   <li key={actor.Name}>
                     <ActorLink actor={actor} />
                   </li>
@@ -65,7 +65,10 @@ export const MoviePage = () => {
                   <div className="text-warning d-flex align-items-center">
                     <RatingIcon />
                   </div>
-                  <div className="fs-5 fw-semibold">{movie.IMDb}<small className="fw-normal fs-7 text-secondary"> / 10</small></div>
+                  <div className="fs-5 fw-semibold">
+                    {movie.IMDb}
+                    <small className="fw-normal fs-7 text-secondary"> / 10</small>
+                  </div>
                 </div>
               </div>
 
@@ -100,7 +103,7 @@ export const MoviePage = () => {
         </Col>
       </Row>
 
-      <MoviesSlider movies={similarMovies} title={"Similar Movies"} description={"No similar movies found!"} />
+      <MoviesSlider movies={similarMovies} title={'Similar Movies'} description={'No similar movies found!'} />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import { ActorModal } from "../../Modals/ActorModal/ActorModal";
+import { ActorModal } from "../../Modals";
 
 export const ActorLink = ({ actor }) => {
   const [modalShow, setModalShow] = useState(false);

@@ -4,14 +4,10 @@ import { Link } from "react-router-dom";
 import { Row, Col, Button, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
-import { FavoriteIcon } from "../../components/Icons/FavoriteIcon/FavoriteIcon";
-import { RatingIcon } from "../../components/Icons/RatingIcon/RatingIcon";
-import { PopularityIcon } from "../../components/Icons/PopularityIcon/PopularityIcon";
-import { ToWatchIcon } from "../../components/Icons/ToWatchIcon/ToWatchIcon";
-import { MoviesSlider } from "../../components/MoviesSlider/MoviesSlider";
-import { GenreBadge } from "../../components/Badges/GenreBadge/GenreBadge";
-import { DirectorLink } from "../../components/Links/DirectorLink/DirectorLink";
-import { ActorLink } from "../../components/Links/ActorLink/ActorLink";
+import { FavoriteIcon, RatingIcon, PopularityIcon, ToWatchIcon } from "../../components/Icons";
+import { MoviesSlider } from "../../components/MoviesSlider";
+import { GenreBadge } from "../../components/Badges";
+import { DirectorLink, ActorLink } from "../../components/Links";
 
 export const MoviePage = () => {
   const { movieId } = useParams();

@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { Container, Row, Col } from "react-bootstrap";
 
 import { MovieCard } from "../Cards/MovieCard/MovieCard";
-import { MoviesFilter } from "../MoviesFilter/MoviesFilter";
+import { MoviesFilter } from "../MoviesFilter";
 
-export const MoviesList = () => {
+const MoviesList = () => {
   const movies = useSelector(state => state.movies.list);
   const filter = useSelector(state => state.movies.filter).trim().toLowerCase();
 
@@ -32,3 +32,5 @@ export const MoviesList = () => {
     </Container>
   );
 };
+
+export default MoviesList;

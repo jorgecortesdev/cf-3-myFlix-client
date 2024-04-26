@@ -3,13 +3,10 @@ import { Container, Row, Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import { NavigationBar } from "../../layouts/NavigationBar/NavigationBar";
-import { FooterBar } from "../../layouts/FooterBar/FooterBar";
-import { MoviePage } from "../MoviePage/MoviePage";
-import { LoginPage } from "../LoginPage/LoginPage";
-import { SignUpPage } from "../SignUpPage/SignUpPage";
-import { ProfilePage } from "../ProfilePage/ProfilePage";
-import { MoviesList } from "../../components/MoviesList/MoviesList";
+import { NavigationBar, FooterBar } from "../../layouts";
+import { LoginPage, SignUpPage, MoviePage, ProfilePage } from "../../pages";
+
+import MoviesList from "../../components/MoviesList"
 
 import { setMovies } from "../../state/movies/moviesSlice";
 

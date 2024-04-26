@@ -1,6 +1,6 @@
 import React, { useId, useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
-import { MiniMovieCard } from "../Cards/MiniMovieCard/MiniMovieCard";
+import { MiniMovieCard } from "../Cards";
 import { SliderButtonPrev } from "./SliderButtonPrev";
 import { SliderButtonNext } from "./SliderButtonNext";
 

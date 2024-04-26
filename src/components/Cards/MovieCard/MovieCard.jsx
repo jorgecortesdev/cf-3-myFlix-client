@@ -2,9 +2,8 @@ import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import { FavoriteIcon } from "../../Icons/FavoriteIcon/FavoriteIcon";
-import { ToWatchIcon } from "../../Icons/ToWatchIcon/ToWatchIcon";
-import { GenreBadge } from "../../Badges/GenreBadge/GenreBadge";
+import { FavoriteIcon, ToWatchIcon } from "../../Icons";
+import { GenreBadge } from "../../Badges";
 
 import "./MovieCard.scss";
 

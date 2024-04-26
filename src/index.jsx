@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
-import { HomePage } from "./pages/HomePage/HomePage";
 import { Provider } from "react-redux";
 import { store } from "./state/store";
+import { HomePage } from "./pages";
 
 import "./index.scss";
 

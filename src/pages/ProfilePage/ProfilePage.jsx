@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Button, Form, Spinner } from "react-bootstrap";
-import { MoviesSlider } from "../../components/MoviesSlider/MoviesSlider";
+import { MoviesSlider } from "../../components/MoviesSlider";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser, onLoggedOut } from "../../state/user/userSlice";
 

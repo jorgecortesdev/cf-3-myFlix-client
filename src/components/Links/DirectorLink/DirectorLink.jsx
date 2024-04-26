@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import { DirectorModal } from "../../Modals/DirectorModal/DirectorModal";
+import { DirectorModal } from "../../Modals";
 
 export const DirectorLink = ({director}) => {
   const [modalShow, setModalShow] = useState(false);

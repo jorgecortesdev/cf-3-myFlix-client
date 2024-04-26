@@ -1,1 +1,1 @@
-export { GenreBadge } from "./GenreBadge/GenreBadge";
+export { GenreBadge } from './GenreBadge/GenreBadge';

@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
-import { NavigationBar, FooterBar } from "../../layouts";
-import { LoginPage, SignUpPage, MoviePage, ProfilePage } from "../../pages";
+import { NavigationBar, FooterBar } from '../../layouts';
+import { LoginPage, SignUpPage, MoviePage, ProfilePage } from '../../pages';
 
-import MoviesList from "../../components/MoviesList"
+import MoviesList from '../../components/MoviesList';
 
-import { setMovies } from "../../state/movies/moviesSlice";
+import { setMovies } from '../../state/movies/moviesSlice';
 
 export const HomePage = () => {
-  const movies = useSelector(state => state.movies.list);
-  const { user, token } = useSelector(state => state.user);
+  const movies = useSelector((state) => state.movies.list);
+  const { user, token } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -30,7 +30,7 @@ export const HomePage = () => {
       .then(({ data }) => {
         // Please review the response format of the API here
         // https://cf-2-movie-api.onrender.com/docs/#/Movie/get_movies
-        const moviesFromApi = data.map(movie => {
+        const moviesFromApi = data.map((movie) => {
           return {
             id: movie._id,
             Title: movie.Title,
@@ -43,7 +43,7 @@ export const HomePage = () => {
             Genre: movie.Genre,
             Director: movie.Director,
             Actors: movie.Actors,
-          }
+          };
         });
 
         dispatch(setMovies(moviesFromApi));
@@ -59,17 +59,17 @@ export const HomePage = () => {
           path="/signup"
           element={
             <>
-            {user ? (
-              <Navigate to="/" />
-            ) : (
-              <Container className="flex-grow-1 d-flex justify-content-center align-items-center">
-                <Row className="w-100 justify-content-center">
-                  <Col md={5}>
-                    <SignUpPage />
-                  </Col>
-                </Row>
-              </Container>
-            )}
+              {user ? (
+                <Navigate to="/" />
+              ) : (
+                <Container className="flex-grow-1 d-flex justify-content-center align-items-center">
+                  <Row className="w-100 justify-content-center">
+                    <Col md={5}>
+                      <SignUpPage />
+                    </Col>
+                  </Row>
+                </Container>
+              )}
             </>
           }
         />
@@ -133,14 +133,7 @@ export const HomePage = () => {
           }
         />
 
-        <Route
-          path="/"
-          element={
-            <>
-              {!user ? <Navigate to="/login" replace /> : <MoviesList />}
-            </>
-          }
-        />
+        <Route path="/" element={<>{!user ? <Navigate to="/login" replace /> : <MoviesList />}</>} />
       </Routes>
 
       <FooterBar />

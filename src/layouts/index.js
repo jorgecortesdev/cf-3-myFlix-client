@@ -1,2 +1,2 @@
-export { NavigationBar } from "./NavigationBar/NavigationBar";
-export { FooterBar } from "./FooterBar/FooterBar";
+export { NavigationBar } from './NavigationBar/NavigationBar';
+export { FooterBar } from './FooterBar/FooterBar';

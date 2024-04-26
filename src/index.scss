@@ -27,7 +27,7 @@ ul.dot-decorator {
 }
 
 ul.dot-decorator > li:not(:last-child)::after {
-  content: "·";
+  content: '·';
 }
 
 ul.dot-decorator > li > a {

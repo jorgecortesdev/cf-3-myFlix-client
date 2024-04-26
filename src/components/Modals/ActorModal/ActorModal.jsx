@@ -1,15 +1,12 @@
-import React from "react";
-import { Modal, Card, ListGroup, Image } from "react-bootstrap";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Modal, Card, ListGroup, Image } from 'react-bootstrap';
+
+import { actorPropTypes } from '../../../propTypes';
 
 export const ActorModal = ({ actor, show, onHide }) => {
   return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-      backdrop
-    >
+    <Modal show={show} onHide={onHide} aria-labelledby="contained-modal-title-vcenter" centered backdrop>
       <Modal.Body>
         <Card body className="border-0">
           <Image src={actor.ImagePath} className="float-start me-4" />
@@ -25,4 +22,10 @@ export const ActorModal = ({ actor, show, onHide }) => {
       </Modal.Body>
     </Modal>
   );
-}
+};
+
+ActorModal.propTypes = {
+  actor: actorPropTypes.isRequired,
+  show: PropTypes.bool.isRequired,
+  onHide: PropTypes.func,
+};

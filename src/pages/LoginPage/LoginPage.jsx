@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Button, Form, Spinner } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setUser, setToken } from "../../state/user/userSlice";
+import React, { useState } from 'react';
+import { Button, Form, Spinner } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser, setToken } from '../../state/user/userSlice';
 
 export const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export const LoginPage = () => {
 
     const data = {
       Email: email,
-      Password: password
+      Password: password,
     };
 
     setLoading(true);
@@ -26,14 +26,14 @@ export const LoginPage = () => {
     const { MYFLIX_API: myflixApi } = process.env;
 
     fetch(`${myflixApi}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      })
-      .then(response => response.json())
-      .then(data => {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
         // Please review the response format of the API here
         // https://cf-2-movie-api.onrender.com/docs/#/Auth/post_login
         if (data.success) {
@@ -45,10 +45,10 @@ export const LoginPage = () => {
         }
         setLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         setLoading(false);
-        alert("Something went wrong");
-        console.log(error)
+        alert('Something went wrong');
+        console.log(error);
       });
   };
 
@@ -68,7 +68,7 @@ export const LoginPage = () => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             required
-            />
+          />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formPassword">
@@ -78,26 +78,19 @@ export const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             required
-            />
+          />
         </Form.Group>
 
         <Button className="mb-3 align-self-end" variant="primary" type="submit" disabled={loading}>
-          {loading &&
-            <Spinner
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-              className="me-1"
-            />
-          }
+          {loading && (
+            <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-1" />
+          )}
           Login
         </Button>
       </Form>
 
       <Link className="p-0 align-self-end" to="/signup">
-        <Button variant="link">Don't have an account?</Button>
+        <Button variant="link">Don&apos;t have an account?</Button>
       </Link>
     </div>
   );

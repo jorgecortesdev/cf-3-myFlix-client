@@ -1,15 +1,12 @@
-import React from "react";
-import { Modal, Card, ListGroup } from "react-bootstrap";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Modal, Card, ListGroup } from 'react-bootstrap';
+
+import { directorPropTypes } from '../../../propTypes';
 
 export const DirectorModal = ({ director, show, onHide }) => {
   return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-      backdrop
-    >
+    <Modal show={show} onHide={onHide} aria-labelledby="contained-modal-title-vcenter" centered backdrop>
       <Modal.Body>
         <Card body className="border-0">
           <Card.Title>{director.Name}</Card.Title>
@@ -29,4 +26,10 @@ export const DirectorModal = ({ director, show, onHide }) => {
       </Modal.Body>
     </Modal>
   );
-}
+};
+
+DirectorModal.propTypes = {
+  director: directorPropTypes.isRequired,
+  show: PropTypes.bool.isRequired,
+  onHide: PropTypes.func,
+};

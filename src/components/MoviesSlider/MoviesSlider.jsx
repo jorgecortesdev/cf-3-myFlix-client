@@ -1,13 +1,16 @@
-import React, { useId, useState, useEffect } from "react";
-import { Row, Col } from "react-bootstrap";
-import { MiniMovieCard } from "../Cards";
-import { SliderButtonPrev } from "./SliderButtonPrev";
-import { SliderButtonNext } from "./SliderButtonNext";
+import React, { useId, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Row, Col } from 'react-bootstrap';
+import { MiniMovieCard } from '../Cards';
+import { SliderButtonPrev } from './SliderButtonPrev';
+import { SliderButtonNext } from './SliderButtonNext';
 
-import "./MoviesSlider.scss";
+import { moviePropTypes } from '../../propTypes';
+
+import './MoviesSlider.scss';
 
 // TODO: fix the prev and next button
-export const MoviesSlider = ({ movies, title, description = "Empty List" }) => {
+export const MoviesSlider = ({ movies, title, description = 'Empty List' }) => {
   const sliderId = useId();
   const [showNext, setShowNext] = useState(false);
   const [showPrev, setShowPrev] = useState(false);
@@ -49,19 +52,18 @@ export const MoviesSlider = ({ movies, title, description = "Empty List" }) => {
       calculateNextButton();
       calculatePrevButton();
     }
-
   });
 
   return (
     <Row>
       <Col md={12}>
-        <h3 className="mb-4">{ title }</h3>
+        <h3 className="mb-4">{title}</h3>
         {movies.length !== 0 ? (
           <section className="slider-wrapper">
             <SliderButtonPrev show={showPrev} sliderId={sliderId} onClick={handlePrevClick} />
             <SliderButtonNext show={showNext} sliderId={sliderId} onClick={handleNextClick} />
             <div className="slides-container" id={sliderId}>
-              {movies.map(movie => (
+              {movies.map((movie) => (
                 <div className="slide" key={movie.id}>
                   <MiniMovieCard movie={movie} />
                 </div>
@@ -73,5 +75,11 @@ export const MoviesSlider = ({ movies, title, description = "Empty List" }) => {
         )}
       </Col>
     </Row>
-  )
-}
+  );
+};
+
+MoviesSlider.propTypes = {
+  movies: PropTypes.arrayOf(moviePropTypes).isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string,
+};

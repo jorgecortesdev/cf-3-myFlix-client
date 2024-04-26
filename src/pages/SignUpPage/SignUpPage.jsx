@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Button, Form, Spinner } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Button, Form, Spinner } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export const SignUpPage = () => {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [birthday, setBirthday] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event) => {
@@ -18,7 +18,7 @@ export const SignUpPage = () => {
       Email: email,
       Password: password,
       Name: name,
-      Birthday: birthday
+      Birthday: birthday,
     };
 
     setLoading(true);
@@ -26,27 +26,28 @@ export const SignUpPage = () => {
     const { MYFLIX_API: myflixApi } = process.env;
 
     fetch(`${myflixApi}/users`, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
         // Please review the response format of the API here
         // https://cf-2-movie-api.onrender.com/docs/#/User/post_users
         if (data.success) {
-          alert("Signup successful");
+          alert('Signup successful');
           window.location.reload();
         } else {
           alert(`Signup failed: ${data.error.message}`);
         }
         setLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         setLoading(false);
-        alert("Something went wrong");
+        alert('Something went wrong');
+        console.log(error);
       });
   };
 
@@ -100,16 +101,9 @@ export const SignUpPage = () => {
         </Form.Group>
 
         <Button className="mb-3 align-self-end" variant="primary" type="submit" disabled={loading}>
-          {loading &&
-            <Spinner
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-              className="me-1"
-            />
-          }
+          {loading && (
+            <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-1" />
+          )}
           Signup
         </Button>
       </Form>

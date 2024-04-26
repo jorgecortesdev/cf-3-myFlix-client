@@ -1,11 +1,11 @@
-import React from "react";
-import { Container, Nav } from "react-bootstrap";
+import React from 'react';
+import { Container, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from "react-redux";
-import { onLoggedOut } from "../../state/user/userSlice";
+import { useSelector, useDispatch } from 'react-redux';
+import { onLoggedOut } from '../../state/user/userSlice';
 
 export const FooterBar = () => {
-  const { user } = useSelector(state => state.user);
+  const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -18,28 +18,38 @@ export const FooterBar = () => {
           {!user && (
             <>
               <Nav.Item>
-                <Nav.Link as={Link} to="/login" className="px-2 text-body-secondary">Login</Nav.Link>
+                <Nav.Link as={Link} to="/login" className="px-2 text-body-secondary">
+                  Login
+                </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link as={Link} to="/signup" className="px-2 text-body-secondary">Sign Up</Nav.Link>
+                <Nav.Link as={Link} to="/signup" className="px-2 text-body-secondary">
+                  Sign Up
+                </Nav.Link>
               </Nav.Item>
             </>
           )}
           {user && (
             <>
               <Nav.Item>
-                <Nav.Link as={Link} to="/" className="px-2 text-body-secondary">Home</Nav.Link>
+                <Nav.Link as={Link} to="/" className="px-2 text-body-secondary">
+                  Home
+                </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link as={Link} to="/profile" className="px-2 text-body-secondary">Profile</Nav.Link>
+                <Nav.Link as={Link} to="/profile" className="px-2 text-body-secondary">
+                  Profile
+                </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link onClick={() => dispatch(onLoggedOut())} className="px-2 text-body-secondary">Logout</Nav.Link>
+                <Nav.Link onClick={() => dispatch(onLoggedOut())} className="px-2 text-body-secondary">
+                  Logout
+                </Nav.Link>
               </Nav.Item>
             </>
           )}
         </Nav>
       </Container>
     </footer>
-  )
-}
+  );
+};

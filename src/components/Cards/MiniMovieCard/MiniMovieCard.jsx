@@ -7,7 +7,8 @@ import { moviePropTypes } from '../../../propTypes';
 
 import './MiniMovieCard.scss';
 
-// TODO: add the movie length to the API and implement it here.
+import { toHoursAndMinutes } from '../../../utils/movies';
+
 export const MiniMovieCard = ({ movie }) => {
   return (
     <div className="movie-information">
@@ -28,7 +29,7 @@ export const MiniMovieCard = ({ movie }) => {
             <div>
               <span className="movie-details__rating">{movie.MPA}</span>
               <ul className="movie-details__list">
-                <li>1h 56m</li>
+                <li>{toHoursAndMinutes(movie.Runtime)}</li>
                 <li>{movie.ReleaseYear}</li>
               </ul>
             </div>

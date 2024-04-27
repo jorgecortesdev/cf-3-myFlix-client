@@ -43,6 +43,7 @@ export const HomePage = () => {
             Genre: movie.Genre,
             Director: movie.Director,
             Actors: movie.Actors,
+            Runtime: movie.Runtime,
           };
         });
 

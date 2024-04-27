@@ -30,4 +30,5 @@ export const moviePropTypes = PropTypes.shape({
   Genre: genrePropTypes.isRequired,
   Director: directorPropTypes.isRequired,
   Actors: PropTypes.arrayOf(actorPropTypes),
+  Runtime: PropTypes.number.isRequired,
 });

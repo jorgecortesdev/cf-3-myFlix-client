@@ -9,6 +9,8 @@ import { MoviesSlider } from '../../components/MoviesSlider';
 import { GenreBadge } from '../../components/Badges';
 import { DirectorLink, ActorLink } from '../../components/Links';
 
+import { toHoursAndMinutes } from '../../utils/movies';
+
 export const MoviePage = () => {
   const { movieId } = useParams();
 
@@ -31,8 +33,9 @@ export const MoviePage = () => {
             <h1 className="mb-0">{movie.Title}</h1>
             <div className="d-flex justify-content-between align-items-end">
               <div className="d-flex gap-2 align-items-center">
-                <span className="fs-6 text-body-secondary">{movie.ReleaseYear}</span>&bull;
-                <span className="fs-6 text-body-secondary">{movie.MPA}</span>
+                <span className="fs-6 text-body-secondary">{movie.MPA}</span>&bull;
+                <span className="fs-6 text-body-secondary">{toHoursAndMinutes(movie.Runtime)}</span>&bull;
+                <span className="fs-6 text-body-secondary">{movie.ReleaseYear}</span>
               </div>
               <GenreBadge genre={movie.Genre} />
             </div>

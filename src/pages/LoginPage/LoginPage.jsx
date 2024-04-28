@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Form, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Navigate, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser, setToken } from '../../state/user/userSlice';
 
 export const LoginPage = () => {
+  const { user } = useSelector((state) => state.user);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -52,46 +54,54 @@ export const LoginPage = () => {
       });
   };
 
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
+
   return (
-    <div className="d-flex flex-column mt-n5">
-      <Form className="d-flex flex-column" onSubmit={handleSubmit}>
-        <div className="d-flex justify-content-center mb-5">
-          <h1 className="display-3 fw-semibold">
-            <small className="lead text-body-secondary d-block">Welcome to</small>
-            myFlix
-          </h1>
-        </div>
-        <Form.Group className="mb-3" controlId="formEmail">
-          <Form.Control
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            required
-          />
-        </Form.Group>
+    <div className="d-flex flex-column justify-content-center align-items-center h-100">
+      <div className="d-flex flex-column col-md-4">
+        <Form className="d-flex flex-column" onSubmit={handleSubmit}>
+          <div className="d-flex justify-content-center mb-5">
+            <h1 className="display-3 fw-semibold">
+              <small className="lead text-body-secondary d-block">Welcome to</small>
+              myFlix
+            </h1>
+          </div>
+          <Form.Group className="mb-3" controlId="formEmail">
+            <Form.Control
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              required
+            />
+          </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formPassword">
-          <Form.Control
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-          />
-        </Form.Group>
+          <Form.Group className="mb-3" controlId="formPassword">
+            <Form.Control
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              required
+            />
+          </Form.Group>
 
-        <Button className="mb-3 align-self-end" variant="primary" type="submit" disabled={loading}>
-          {loading && (
-            <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-1" />
-          )}
-          Login
-        </Button>
-      </Form>
+          <Button className="mb-3 align-self-end" variant="primary" type="submit" disabled={loading}>
+            {loading && (
+              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-1" />
+            )}
+            Login
+          </Button>
+        </Form>
 
-      <Link className="p-0 align-self-end" to="/signup">
-        <Button variant="link">Don&apos;t have an account?</Button>
-      </Link>
+        <Link className="align-self-end" to="/signup">
+          <Button variant="link" className="p-0">
+            Don&apos;t have an account?
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };

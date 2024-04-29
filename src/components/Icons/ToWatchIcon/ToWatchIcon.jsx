@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../../../state/user/userSlice';
+import { toast } from 'react-toastify';
 
 import { moviePropTypes } from '../../../propTypes';
 
@@ -25,13 +26,14 @@ export const ToWatchIcon = ({ movie, className = '' }) => {
         if (data.success) {
           const updatedUser = data.data;
           dispatch(setUser(updatedUser));
+          toast.success(isAdded ? 'Movie removed' : 'Movie added');
         } else {
-          alert(`Operation failed: ${data.error.message}`);
+          toast.error(`${data.error.message}`);
         }
       })
       .catch((error) => {
+        toast.error('Something went wrong!');
         console.log(error);
-        alert('Something went wrong');
       });
   };
 

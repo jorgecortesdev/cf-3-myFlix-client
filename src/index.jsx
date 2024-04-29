@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from './state/store';
 import { HomePage } from './pages';
 
+import 'react-toastify/dist/ReactToastify.min.css';
 import './index.scss';
 
 const App = () => {

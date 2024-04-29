@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
+import { ToastContainer } from 'react-toastify';
 import { NavigationBar, FooterBar } from '../../layouts';
 
 export const AppLayout = () => {
@@ -15,6 +16,7 @@ export const AppLayout = () => {
           </main>
 
           <FooterBar />
+          <ToastContainer theme="colored" />
         </Col>
       </Row>
     </Container>

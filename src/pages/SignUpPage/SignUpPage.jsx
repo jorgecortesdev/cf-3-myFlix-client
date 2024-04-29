@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form, Spinner } from 'react-bootstrap';
 import { Navigate, Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 export const SignUpPage = () => {
   const navigate = useNavigate();
@@ -12,10 +13,9 @@ export const SignUpPage = () => {
   const [email, setEmail] = useState('');
   const [birthday, setBirthday] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const handleSubmit = (event) => {
-    // this prevents the default behavior of the form which is to
-    // reload the entire page
     event.preventDefault();
 
     const data = {
@@ -41,16 +41,21 @@ export const SignUpPage = () => {
         // Please review the response format of the API here
         // https://cf-2-movie-api.onrender.com/docs/#/User/post_users
         if (data.success) {
-          alert('Signup successful');
+          toast.success('Signup successful');
           navigate('/', { replace: true });
         } else {
-          alert(`Signup failed: ${data.error.message}`);
+          const errors = data.error.message;
+          if (Array.isArray(errors)) {
+            setErrors(errors.reduce((acc, cur) => ({ ...acc, [cur.path]: cur.msg }), {}));
+          } else {
+            setErrors({ Email: errors });
+          }
         }
         setLoading(false);
       })
       .catch((error) => {
         setLoading(false);
-        alert('Something went wrong');
+        toast.error('Something went wrong!');
         console.log(error);
       });
   };
@@ -75,8 +80,10 @@ export const SignUpPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
-              required
+              isInvalid={!!errors.Email}
+              // required
             />
+            <Form.Control.Feedback type="invalid">{errors.Email}</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formPassword">
@@ -85,8 +92,10 @@ export const SignUpPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
+              isInvalid={!!errors.Password}
               required
             />
+            <Form.Control.Feedback type="invalid">{errors.Password}</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formName">
@@ -95,9 +104,11 @@ export const SignUpPage = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Name"
+              isInvalid={!!errors.Name}
               required
               minLength="5"
             />
+            <Form.Control.Feedback type="invalid">{errors.Name}</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBirthday">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form, Spinner } from 'react-bootstrap';
 import { Navigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { setUser, setToken } from '../../state/user/userSlice';
 
 export const LoginPage = () => {
@@ -42,15 +43,16 @@ export const LoginPage = () => {
           const { user, token } = data.data;
           dispatch(setUser(user));
           dispatch(setToken(token));
+          toast.success(`Welcome back, ${user.Name}`);
         } else {
-          alert(`Login failed: ${data.error.message}`);
+          toast.error(`Login failed: ${data.error.message}`);
         }
         setLoading(false);
       })
       .catch((error) => {
         setLoading(false);
-        alert('Something went wrong');
-        console.log(error);
+        toast.error('Something went wrong!');
+        console.error(error);
       });
   };
 

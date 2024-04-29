@@ -3,6 +3,7 @@ import { Row, Col, Button, Form, Spinner } from 'react-bootstrap';
 import { MoviesSlider } from '../../components/MoviesSlider';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser, onLoggedOut } from '../../state/user/userSlice';
+import { toast } from 'react-toastify';
 
 export const ProfilePage = () => {
   // TODO: Fix the bug with timezone
@@ -26,6 +27,7 @@ export const ProfilePage = () => {
   const [name, setName] = useState(user.Name);
   const [password, setPassword] = useState('');
   const [birthday, setBirthday] = useState(formattedDate(user.Birthday));
+  const [errors, setErrors] = useState([]);
 
   const movies = useSelector((state) => state.movies.list);
 
@@ -64,15 +66,21 @@ export const ProfilePage = () => {
       .then((data) => {
         if (data.success) {
           dispatch(setUser({ ...user, ...data.data }));
-          alert('Update successful');
+          setErrors([]);
+          toast.success('Update successful');
         } else {
-          alert(`Update failed: ${data.error.message}`);
+          const errors = data.error.message;
+          if (Array.isArray(errors)) {
+            setErrors(errors.reduce((acc, cur) => ({ ...acc, [cur.path]: cur.msg }), {}));
+          } else {
+            toast.error(errors);
+          }
         }
         setLoading(false);
       })
       .catch((error) => {
         setLoading(false);
-        alert('Something went wrong');
+        toast.error('Something went wrong!');
         console.log(error);
       });
   };
@@ -124,9 +132,11 @@ export const ProfilePage = () => {
                 placeholder="Name"
                 defaultValue={user.Name}
                 onChange={(e) => setName(e.target.value)}
+                isInvalid={!!errors.Name}
                 required
                 minLength={5}
               />
+              <Form.Control.Feedback type="invalid">{errors.Name}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBirthday">

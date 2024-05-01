@@ -49,6 +49,8 @@ Additionally, if you want to extend your project you might want read the code in
 - https://github.com/jorgecortesdev/cf-3-myFlix-client/pull/12/files
 - https://github.com/jorgecortesdev/cf-3-myFlix-client/pull/13/files
 - https://github.com/jorgecortesdev/cf-3-myFlix-client/pull/14/files
+- https://github.com/jorgecortesdev/cf-3-myFlix-client/pull/15/files
+- https://github.com/jorgecortesdev/cf-3-myFlix-client/pull/16/files
 
 #### Branches
 

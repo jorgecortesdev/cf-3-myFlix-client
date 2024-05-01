@@ -2,112 +2,58 @@ import React, { useState } from 'react';
 import { Row, Col, Button, Form, Spinner } from 'react-bootstrap';
 import { MoviesSlider } from '../../components/MoviesSlider';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser, onLoggedOut } from '../../state/user/userSlice';
+import { setUser } from '../../state/user/userSlice';
+import { useGetMoviesQuery, useUpdateAccountMutation } from '../../services/myFlixApi';
 import { toast } from 'react-toastify';
+import { formattedDate, removeNullOrUndefined } from '../../utils/utils';
+import { RemoveAccountLink } from '../../components/Links';
 
 export const ProfilePage = () => {
-  // TODO: Fix the bug with timezone
-  const formattedDate = (value) => {
-    if (value) {
-      const inputDate = new Date(value);
+  const { user } = useSelector((state) => state.user);
 
-      const year = inputDate.getFullYear();
-      const month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-      const day = inputDate.getDate().toString().padStart(2, '0');
-
-      return `${year}-${month}-${day}`;
-    }
-
-    return value;
-  };
-
-  const { user, token } = useSelector((state) => state.user);
-
-  const [loading, setLoading] = useState(false);
-  const [name, setName] = useState(user.Name);
-  const [password, setPassword] = useState('');
-  const [birthday, setBirthday] = useState(formattedDate(user.Birthday));
+  const [updateAccount, { isLoading }] = useUpdateAccountMutation();
+  const [formState, setFormState] = useState({
+    Name: user.Name,
+    Password: null,
+    Birthday: user.Birthday,
+  });
   const [errors, setErrors] = useState([]);
-
-  const movies = useSelector((state) => state.movies.list);
-
-  const favoriteMovies = movies.filter((movie) => user.FavoriteMovies.includes(movie.id));
-
-  const toWatchMovies = movies.filter((movie) => user.ToWatch.includes(movie.id));
 
   const dispatch = useDispatch();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    let data = {
-      Name: name,
-      Birthday: birthday,
-    };
+    let data = { ...formState };
+    removeNullOrUndefined(data);
 
-    setLoading(true);
-
-    // only set password if is not empty
-    if (password) {
-      data.Password = password;
+    try {
+      const response = await updateAccount({ email: user.Email, form: data });
+      if (response?.data?.success) {
+        dispatch(setUser({ ...user, ...response.data.data }));
+        setErrors([]);
+        toast.success('Update successful');
+      } else {
+        const errors = response.error.message;
+        if (Array.isArray(errors)) {
+          setErrors(errors.reduce((acc, cur) => ({ ...acc, [cur.path]: cur.msg }), {}));
+        } else {
+          toast.error(errors);
+        }
+      }
+    } catch (error) {
+      toast.error('Something went wrong!');
+      console.log(error);
     }
-
-    const { MYFLIX_API: myflixApi } = process.env;
-
-    fetch(`${myflixApi}/users/${user.Email}`, {
-      method: 'PUT',
-      body: JSON.stringify(data),
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          dispatch(setUser({ ...user, ...data.data }));
-          setErrors([]);
-          toast.success('Update successful');
-        } else {
-          const errors = data.error.message;
-          if (Array.isArray(errors)) {
-            setErrors(errors.reduce((acc, cur) => ({ ...acc, [cur.path]: cur.msg }), {}));
-          } else {
-            toast.error(errors);
-          }
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        toast.error('Something went wrong!');
-        console.log(error);
-      });
   };
 
-  const removeAccount = () => {
-    const { MYFLIX_API: myflixApi } = process.env;
-
-    fetch(`${myflixApi}/users/${user.Email}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          dispatch(onLoggedOut());
-        } else {
-          alert(`Remove failed: ${data.error.message}`);
-        }
-      })
-      .catch((error) => {
-        alert('Something went wrong');
-        console.log(error);
-      });
+  const handleChange = ({ target: { name, value } }) => {
+    setFormState((prev) => ({ ...prev, [name]: value }));
   };
+
+  const { data: movies = [] } = useGetMoviesQuery();
+  const favoriteMovies = movies.filter((movie) => user.FavoriteMovies.includes(movie._id));
+  const toWatchMovies = movies.filter((movie) => user.ToWatch.includes(movie._id));
 
   return (
     <>
@@ -123,15 +69,16 @@ export const ProfilePage = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formPassword">
-              <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+              <Form.Control type="password" name="Password" placeholder="Password" onChange={handleChange} />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formName">
               <Form.Control
                 type="text"
+                name="Name"
+                value={formState.Name}
                 placeholder="Name"
-                defaultValue={user.Name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={handleChange}
                 isInvalid={!!errors.Name}
                 required
                 minLength={5}
@@ -142,15 +89,16 @@ export const ProfilePage = () => {
             <Form.Group className="mb-3" controlId="formBirthday">
               <Form.Control
                 type="date"
+                name="Birthday"
+                value={formattedDate(formState.Birthday)}
                 placeholder="Birthday"
-                defaultValue={formattedDate(user.Birthday)}
-                onChange={(e) => setBirthday(e.target.value)}
+                onChange={handleChange}
               />
             </Form.Group>
 
             <div className="d-flex flex-column align-items-end">
-              <Button variant="primary" type="submit" disabled={loading}>
-                {loading && (
+              <Button variant="primary" type="submit" disabled={isLoading}>
+                {isLoading && (
                   <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-1" />
                 )}
                 Update
@@ -158,20 +106,7 @@ export const ProfilePage = () => {
             </div>
           </Form>
           <div className="d-flex justify-content-end">
-            <Button onClick={removeAccount} variant="link" type="submit" className="text-danger p-0 mt-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-trash"
-                viewBox="0 0 16 16"
-              >
-                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-              </svg>
-              <small className="ms-2">Remove account permanently</small>
-            </Button>
+            <RemoveAccountLink />
           </div>
         </Col>
       </Row>

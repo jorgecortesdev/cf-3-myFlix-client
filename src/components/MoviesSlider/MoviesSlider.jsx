@@ -64,7 +64,7 @@ export const MoviesSlider = ({ movies, title, description = 'Empty List' }) => {
             <SliderButtonNext show={showNext} sliderId={sliderId} onClick={handleNextClick} />
             <div className="slides-container" id={sliderId}>
               {movies.map((movie) => (
-                <div className="slide" key={movie.id}>
+                <div className="slide" key={movie._id}>
                   <MiniMovieCard movie={movie} />
                 </div>
               ))}

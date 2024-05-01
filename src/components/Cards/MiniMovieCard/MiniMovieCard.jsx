@@ -22,7 +22,7 @@ export const MiniMovieCard = ({ movie }) => {
 
           <div className="movie-details">
             <p>
-              <Link to={`/movies/${encodeURIComponent(movie.id)}`} className="z-0 stretched-link">
+              <Link to={`/movies/${encodeURIComponent(movie._id)}`} className="z-0 stretched-link">
                 {movie.Title}
               </Link>
             </p>

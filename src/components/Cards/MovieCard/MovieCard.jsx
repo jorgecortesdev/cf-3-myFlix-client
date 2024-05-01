@@ -22,7 +22,7 @@ export const MovieCard = ({ movie }) => {
         <Card.Text>{movie.Description}</Card.Text>
         <div className="flex-grow-1 d-flex align-items-end justify-content-between">
           <GenreBadge genre={movie.Genre} />
-          <Link to={`/movies/${encodeURIComponent(movie.id)}`} className="z-0">
+          <Link to={`/movies/${encodeURIComponent(movie._id)}`} className="z-0">
             <Button className="stretched-link p-0" variant="link">
               Open
               <svg

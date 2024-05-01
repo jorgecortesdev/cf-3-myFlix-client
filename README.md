@@ -77,6 +77,14 @@ cd cf-3-myFlix-client
 
 If you’re interested in studying with CareerFoundry, you can use my referral link for a 5% discount on one of the courses: https://careerfoundry.com/en/referral_registrations/new?referral=ArJpwnEw
 
+## Screenshots
+
+![Login](/assets/1-login-screen.png)
+![Sign up](/assets/2-signup-screen.png)
+![Home page](/assets/3-homepage.png)
+![Movie view](/assets/4-movie-page.png)
+![User profile](/assets/5-user-profile.png)
+
 ## Maintainers
 
 Currently, the sole maintainer is [@jorgecortesdev](https://github.com/jorgecortesdev) - more maintainers are quite welcome.

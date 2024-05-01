@@ -4,37 +4,33 @@ import { Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../../../state/user/userSlice';
 import { toast } from 'react-toastify';
-
 import { moviePropTypes } from '../../../propTypes';
+import { useToggleWatchMovieMutation } from '../../../services/myFlixApi';
 
 export const ToWatchIcon = ({ movie, className = '' }) => {
-  const { user, token } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
-  const isAdded = user.ToWatch.includes(movie.id);
+  const isAdded = user.ToWatch.includes(movie._id);
 
-  const toggleMovie = (user, movie, method) => {
-    const { MYFLIX_API: myflixApi } = process.env;
+  const [toggle] = useToggleWatchMovieMutation();
 
-    fetch(`${myflixApi}/lists/${user.Email}/watch/${movie.id}`, {
-      method,
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          const updatedUser = data.data;
-          dispatch(setUser(updatedUser));
-          toast.success(isAdded ? 'Movie removed' : 'Movie added');
-        } else {
-          toast.error(`${data.error.message}`);
-        }
-      })
-      .catch((error) => {
-        toast.error('Something went wrong!');
-        console.log(error);
-      });
+  const toggleMovie = async (user, movie, method) => {
+    try {
+      const response = await toggle({ email: user.Email, movie: movie._id, method });
+
+      if (response?.data?.success) {
+        const updatedUser = response.data.data;
+        dispatch(setUser(updatedUser));
+        toast.success(isAdded ? 'Movie removed' : 'Movie added');
+      } else {
+        toast.error(`${response.error.message}`);
+      }
+    } catch (error) {
+      toast.error('Something went wrong!');
+      console.log(error);
+    }
   };
 
   return (

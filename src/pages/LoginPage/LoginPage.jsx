@@ -1,59 +1,43 @@
 import React, { useState } from 'react';
 import { Button, Form, Spinner } from 'react-bootstrap';
 import { Navigate, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLoginMutation } from '../../services/myFlixApi';
 import { setUser, setToken } from '../../state/user/userSlice';
+import { PasswordInput } from '../../components/PasswordInput/PasswordInput';
 
 export const LoginPage = () => {
-  const { user } = useSelector((state) => state.user);
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+  const [formState, setFormState] = useState({
+    Email: '',
+    Password: '',
+  });
 
-  const handleSubmit = (event) => {
-    // this prevents the default behavior of the form which is to
-    // reload the entire page
+  const [login, { isLoading }] = useLoginMutation();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+      const response = await login(formState);
 
-    const data = {
-      Email: email,
-      Password: password,
-    };
+      if (response?.data?.success) {
+        const { user, token } = response.data.data;
+        dispatch(setUser(user));
+        dispatch(setToken(token));
+        toast.success(`Welcome back, ${user.Name}`);
+      } else {
+        toast.error(response.error.data.error.message);
+      }
+    } catch (error) {
+      toast.error('Something went wrong!');
+      console.log(error);
+    }
+  };
 
-    setLoading(true);
-
-    const { MYFLIX_API: myflixApi } = process.env;
-
-    fetch(`${myflixApi}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Please review the response format of the API here
-        // https://cf-2-movie-api.onrender.com/docs/#/Auth/post_login
-        if (data.success) {
-          const { user, token } = data.data;
-          dispatch(setUser(user));
-          dispatch(setToken(token));
-          toast.success(`Welcome back, ${user.Name}`);
-        } else {
-          toast.error(`Login failed: ${data.error.message}`);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        toast.error('Something went wrong!');
-        console.error(error);
-      });
+  const handleChange = ({ target: { name, value } }) => {
+    setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
   if (user) {
@@ -71,27 +55,15 @@ export const LoginPage = () => {
             </h1>
           </div>
           <Form.Group className="mb-3" controlId="formEmail">
-            <Form.Control
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
-              required
-            />
+            <Form.Control type="text" name="Email" onChange={handleChange} placeholder="Email" required />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formPassword">
-            <Form.Control
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              required
-            />
+            <PasswordInput name="Password" onChange={handleChange} />
           </Form.Group>
 
-          <Button className="mb-3 align-self-end" variant="primary" type="submit" disabled={loading}>
-            {loading && (
+          <Button className="mb-3 align-self-end" variant="primary" type="submit" disabled={isLoading}>
+            {isLoading && (
               <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-1" />
             )}
             Login

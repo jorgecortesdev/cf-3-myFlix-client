@@ -2,7 +2,6 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Row, Col, Button, ListGroup } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
 
 import { FavoriteIcon, RatingIcon, PopularityIcon, ToWatchIcon } from '../../components/Icons';
 import { MoviesSlider } from '../../components/MoviesSlider';
@@ -11,17 +10,19 @@ import { DirectorLink, ActorLink } from '../../components/Links';
 
 import { toHoursAndMinutes } from '../../utils/movies';
 
+import { useGetMoviesQuery } from '../../services/myFlixApi';
+
 export const MoviePage = () => {
   const { movieId } = useParams();
 
-  const movies = useSelector((state) => state.movies.list);
+  const { data: movies = [] } = useGetMoviesQuery();
 
-  const movie = movies.find((movie) => movie.id === movieId);
+  const movie = movies.find((movie) => movie._id === movieId);
 
   // Bonus Task 2: Similar Movies
   const similarMovies = movies.filter((currentMovie) => {
     const isSimilarMovie = movie.Genre.Name === currentMovie.Genre.Name;
-    const isNotTheSelectedMovie = movie.id !== currentMovie.id;
+    const isNotTheSelectedMovie = movie._id !== currentMovie._id;
     return isNotTheSelectedMovie && isSimilarMovie;
   });
 
